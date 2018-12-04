@@ -9,16 +9,19 @@ class CSVWritter {
     constructor() {
         this.csvDefaultOutputDirectory = 'output';
         this.csvFileExtension = '.csv';
-        this.filesNamesSplitter = ';';
+        this.filesNamesAndPathsSplitter = ';';
     }
 
-    async writeCSVFiles(csvData, csvFilesNamesChain, outputPath, csvFilePathToMergeWith) {
+    async writeCSVFiles(csvData, csvFilesNamesChain, outputPath, csvFilesPathsToMergeWith) {
         const csv = new ObjectsToCsv(csvData);
-        if (!_.isUndefined(csvFilePathToMergeWith)) {
-            await csv.toDisk(csvFilePathToMergeWith, { append: true });
-            console.log(`Written data file: ${csvFilePathToMergeWith}.`);
+        if (!_.isUndefined(csvFilesPathsToMergeWith)) {
+            const csvFilesPaths = _.split(csvFilesPathsToMergeWith, this.filesNamesAndPathsSplitter);
+            await Promise.each(csvFilesPaths, async csvFilePath => {
+                await csv.toDisk(csvFilePath, { append: true });
+                console.log(`Written data file: ${csvFilePath}.`);
+            });
         } else {
-            const csvFilesNames = _.split(csvFilesNamesChain, this.filesNamesSplitter);
+            const csvFilesNames = _.split(csvFilesNamesChain, this.filesNamesAndPathsSplitter);
             if (!fs.existsSync(this.csvDefaultOutputDirectory)){
                 fs.mkdirSync(this.csvDefaultOutputDirectory);
             }

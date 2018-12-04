@@ -5,18 +5,18 @@ const CSVGenerator = require('./csvGenerator');
 class Generator {
 	constructor() {
 		this.optionsValidator = new OptionsValidator();
+		this.csvGenerator = new CSVGenerator();
 	}
 
 	async runGenerator(options) {
 		try {
 			const valid = await this.optionsValidator.validateOptions(options)
 			if (valid) {
-				const csvGenerator = new CSVGenerator(options);
-				await csvGenerator.generateData();	
+				await this.csvGenerator.generateData(options);
 				console.log('Generation completed.')
 			}        
 		} catch (exception) {
-			console.debug(exception);
+			console.error(exception);
 			console.error(exception.message);
 			console.info('Generation not finalized.')
 		}

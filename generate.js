@@ -8,10 +8,7 @@ program
     .version(version)
     .option('-c, --csvConfigurationFilePath <csvConfigurationFilePath>', 'CSV configuration json file path.')
     .option('-n, --csvFilesNames <csvFilesNames>', 'New CSV files names. Without "csv" extension. Separated by ";".')
-    .option(
-        '-m, --csvFilePathToMergeWith <csvFilePathToMergeWith>',
-        'CSV file to merge new generated data with. Cannot be provided if csvFilesNames option was given. Merging is not writing new column names to the CSV.'
-    )
+    .option('-m, --csvFilesPathToMergeWith <csvFilesPathToMergeWith>', 'CSV files to merge new generated data with. Cannot be provided if csvFilesNames option was given. Separated by ";".')
     .option('-d, --dataRowsCount <dataRowsCount>', 'Data rows count for the CSV file.')
     .option('-o, --outputPath <outputPath>', 'Output path for generated csv data. Valid only with csvFilesNames command.')
     .action(async options => {

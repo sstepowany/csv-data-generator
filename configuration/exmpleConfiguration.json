@@ -1,1 +1,72 @@
-{}
+{
+  "NUMERIC_CONSTANT": {
+    "dataType": "numeric",
+    "initialData": 1,
+    "strategy": "constant"
+  },
+  "NUMERIC_ADD": {
+    "dataType": "numeric",
+    "initialData": 1,
+    "strategy": "add",
+    "metaInfo": {
+      "operand": 0.5
+    }
+  },
+  "NUMERIC_REMOVE": {
+    "dataType": "numeric",
+    "initialData": 1,
+    "strategy": "remove",
+    "metaInfo": {
+      "operand": 1
+    }
+  },
+  "NUMERIC_MULTIPLY": {
+    "dataType": "numeric",
+    "initialData": 1,
+    "strategy": "multiply",
+    "metaInfo": {
+      "operand": 1
+    }
+  },
+  "NUMERIC_DIVIDE": {
+    "dataType": "numeric",
+    "initialData": 1,
+    "strategy": "divide",
+    "metaInfo": {
+      "operand": 1
+    }
+  },
+  "TEXT_CONSTANT": {
+    "dataType": "text",
+    "initialData": "Sample",
+    "strategy": "constant"
+  },
+  "TEXT_RANDOMIZE": {
+    "dataType": "text",
+    "initialData": "Sample",
+    "strategy": "randomize",
+    "metaInfo": {
+      "additionalTextLength": 10
+    }
+  },
+  "DATE_ADD": {
+    "dataType": "date",
+    "initialData": "2018-11-30 00:00:00",
+    "strategy": "add",
+    "metaInfo": {
+      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+      "interval": 1440,
+      "intervalUnit": "minutes"
+    }
+  },
+  "DATE_REMOVE": {
+    "dataType": "date",
+    "initialData": "2018-11-30 00:00:00",
+    "strategy": "remove",
+    "metaInfo": {
+      "dateFormat": "YYYY-MM-DD HH:mm:ss",
+      "interval": 2,
+      "intervalUnit": "hours"
+    }
+  }
+}

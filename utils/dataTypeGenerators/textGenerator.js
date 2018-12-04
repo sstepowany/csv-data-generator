@@ -9,7 +9,7 @@ class TextGenerator extends BaseGenerator {
                 const randomizeOffset = 2;
                 const randomizationRadix = 36;
                 while (true) {
-                    yield Math.random().toString(randomizationRadix).substring(randomizeOffset, metaInfo.textLength + randomizeOffset);
+                    yield value + Math.random().toString(randomizationRadix).substring(randomizeOffset, metaInfo.additionalTextLength + randomizeOffset);
                 }
             }
         });
