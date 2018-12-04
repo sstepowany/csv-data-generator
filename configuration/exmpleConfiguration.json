@@ -49,6 +49,11 @@
       "additionalTextLength": 10
     }
   },
+  "DATE_CONSTANT": {
+    "dataType": "date",
+    "initialData": "2018-11-30 00:00:00",
+    "strategy": "constant"
+  },
   "DATE_ADD": {
     "dataType": "date",
     "initialData": "2018-11-30 00:00:00",
