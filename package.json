@@ -1,0 +1,19 @@
+{
+  "name": "csv-data-generator",
+  "version": "1.0.0",
+  "description": "Tool for generating csv files with provided data configuration.",
+  "main": "index.js",
+  "scripts": {
+    "generate": "node generate.js"
+  },
+  "author": "sstepowany",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.3",
+    "commander": "^2.19.0",
+    "csv": "^5.0.0",
+    "lodash": "^4.17.11",
+    "moment": "^2.22.2",
+    "objects-to-csv": "^1.2.1"
+  }
+}
