@@ -7,14 +7,14 @@ class DateGenerator extends BaseGenerator {
         super();
         this.allowedStrategiesMap = _.assign(this.allowedStrategiesMap, {
             add: function* (startDate, metaInfo) {
-                let date = moment(startDate).format(metaInfo.dateFormat);
+                let date = moment(startDate).subtract(metaInfo.interval, metaInfo.intervalUnit).format(metaInfo.dateFormat);
                 while (true) {
                     date = moment(date).add(metaInfo.interval, metaInfo.intervalUnit).format(metaInfo.dateFormat);
                     yield date;
                 }
             },
             remove: function* (startDate, metaInfo) {
-                let date = moment(startDate).format(metaInfo.dateFormat);
+                let date = moment(startDate).add(metaInfo.interval, metaInfo.intervalUnit).format(metaInfo.dateFormat);
                 while (true) {
                     date = moment(date).subtract(metaInfo.interval, metaInfo.intervalUnit).format(metaInfo.dateFormat);
                     yield date;
