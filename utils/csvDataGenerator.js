@@ -24,10 +24,10 @@ class CSVDataGenerator {
         };
     }
 
-    generateData(dataCount, csvColmunsStructure) {
+    generateData(dataCount, csvColumnsStructure) {
         const generatorsMap = this.prepareGeneratorsMap();
         const csvResult = [];
-        _.each(csvColmunsStructure, (columnData, columnName) => {
+        _.each(csvColumnsStructure, (columnData, columnName) => {
             if (_.has(generatorsMap, columnData.dataType)) {
                 const generator = generatorsMap[columnData.dataType](columnData.initialData, columnData.metaInfo, columnData.strategy);
                 for (let i = 0; i < dataCount; i++) {
