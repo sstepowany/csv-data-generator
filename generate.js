@@ -1,6 +1,6 @@
 const program = require('commander');
 const { name, version } = require('./package.json');
-const Generator = require('./utils/generator.js');
+const CSVGenerator = require('./utils/csvGenerator.js');
 
 program
     .description(name)
@@ -12,7 +12,7 @@ program
     .option('-d, --dataRowsCount <dataRowsCount>', 'Data rows count for the CSV file.')
     .option('-o, --outputPath <outputPath>', 'Output path for generated csv data. Valid only with csvFilesNames command.')
     .action(async options => {
-        const generator = new Generator();
-        generator.runGenerator(options);
+        const csvGenerator = new CSVGenerator();
+        await csvGenerator.generateData(options);
     })
     .parse(process.argv);

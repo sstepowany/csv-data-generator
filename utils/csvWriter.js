@@ -5,7 +5,7 @@ const Promise = require('bluebird');
 const _ = require('lodash');
 
 
-class CSVWritter {
+class CsvWriter {
     constructor() {
         this.csvDefaultOutputDirectory = 'output';
         this.csvFileExtension = '.csv';
@@ -38,4 +38,4 @@ class CSVWritter {
     }
 }
 
-module.exports = CSVWritter;
+module.exports = CsvWriter;
