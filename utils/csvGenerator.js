@@ -15,11 +15,17 @@ class CSVGenerator {
 
     async prepareCsvData(options) {
         const csvConfiguration = JSON.parse(fs.readFileSync(options.csvConfigurationFilePath, this.csvConfigurationFileEncoding));
-        const a = parseInt(options.dataRowsCount);
-        if (!_.isNumber(a) || options.dataRowsCount < this.miniumDataRowsCount) {
-            throw new Error('Incorrect data rows count provided.');
+        const dataRowsCount = parseInt(options.dataRowsCount);
+        if (dataRowsCount) {
+            if (!_.isNumber(dataRowsCount) || options.dataRowsCount < this.miniumDataRowsCount) {
+                throw new Error('Incorrect data rows count provided.');
+            }
+            console.log('Generating data based on data count.');
+            return this.csvDataGenerator.generateDataWithRowsCount(options.dataRowsCount, csvConfiguration.columnsStructure);
+        } else {
+            console.log('Generating data based on data range.');
+            return this.csvDataGenerator.generateDataForRangedData(csvConfiguration.dataRange, csvConfiguration.columnsStructure);
         }
-        return this.csvDataGenerator.generateData(options.dataRowsCount, csvConfiguration.columnsStructure);
     }
 
     async generateData(options) {

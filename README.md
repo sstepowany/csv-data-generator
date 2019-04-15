@@ -4,7 +4,7 @@
 These instructions will get you a copy of the project up and running on your machine.
 
 ### Prerequisites
-- [Node](https://nodejs.org/en/) version used: v10.14.1. (Base version for the tool creation.)
+- [Node](https://nodejs.org/en/)
 
 ### Installing
 1. Install Node.
