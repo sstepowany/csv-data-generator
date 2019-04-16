@@ -30,7 +30,8 @@ class CSVDataGenerator {
             const generator = generatorsMap[columnData.dataType](
                 columnData.initialData,
                 columnData.metaInfo,
-                columnData.strategy);
+                columnData.strategy
+            );
             for (let i = 0; i < dataCount; i++) {
                 if (!_.isObject(csvResult[i])) csvResult[i] = {};
                 csvResult[i][columnName] = generator.next().value;
@@ -41,7 +42,41 @@ class CSVDataGenerator {
         }
     }
 
-    generateDataWithRangedDataResults(dataCount, csvColumnsStructure, rangeColumn, rangedData, restFieldsRangeGapsStrategy) {
+    generateDataWithGaps(csvResult, columnName, columnData, generatorsMap, classifiedDataRanges) {
+        if (_.has(generatorsMap, columnData.dataType)) {
+            const generator = generatorsMap[columnData.dataType](
+                columnData.initialData,
+                columnData.metaInfo,
+                columnData.strategy
+            );
+            let counter = 0;
+            _.each(classifiedDataRanges, rangeData => {
+                for (let i = 0; i < rangeData.rangeCount; i++) {
+                    const index = i + counter;
+                    if (!_.isObject(csvResult[index])) csvResult[index] = {};
+                    csvResult[index][columnName] = generator.next().value;
+                }
+                counter += rangeData.rangeCount;
+
+                for (let i = 0; i < rangeData.nextRangeDistance; i++) {
+                    generator.next();
+                }
+            });
+        } else {
+            throw new Error(`Incorrect generator data type: ${columnData.dataType} for column ${columnName}.`);
+        }
+
+        return csvResult;
+    }
+
+    generateDataWithRangedDataResults(
+        dataCount,
+        csvColumnsStructure,
+        rangeColumn,
+        rangedData,
+        restFieldsRangeGapsStrategy,
+        classifiedDataRanges
+    ) {
         const generatorsMap = this.prepareGeneratorsMap();
         let csvResult = [];
         _.each(csvColumnsStructure, (columnData, columnName) => {
@@ -51,11 +86,12 @@ class CSVDataGenerator {
                     csvResult[i][columnName] = rangedData[i][columnName];
                 }
             } else {
-                if (restFieldsRangeGapsStrategy === 'ignore') {
+                if (restFieldsRangeGapsStrategy === 'propagate') {
+                    csvResult = this.generateDataWithGaps(csvResult, columnName, columnData, generatorsMap, classifiedDataRanges.ranges);
+                } else if (restFieldsRangeGapsStrategy === 'ignore') {
                     csvResult = this.generateData(csvResult, generatorsMap, columnName, columnData, dataCount);
-                } else if (restFieldsRangeGapsStrategy === 'propagate') {
-                    // TODO: Adjust code to take gaps into account
-                    csvResult = this.generateData(csvResult, generatorsMap, columnName, columnData, dataCount);
+                } else {
+                    throw new Error('Provided incorrect strategy for rest fields handling.');
                 }
             }
         });
@@ -73,15 +109,15 @@ class CSVDataGenerator {
 
     generateDataForRangedData(dataRange, csvColumnsStructure) {
         const generatorsMap = this.prepareGeneratorsMap();
-        const rangedColumnResult = [];
+        let rangedColumnResult = [];
         const dataRangeClassifier = new DataRangeClassifier();
         const classifiedDataRanges = dataRangeClassifier.classifyDataRanges(
             dataRange.conditions,
             csvColumnsStructure[dataRange.column]
         );
-        let summaryDataRange = -1;
         if (_.has(generatorsMap, csvColumnsStructure[dataRange.column].dataType)) {
-            _.each(classifiedDataRanges, conditionRange => {
+            _.each(classifiedDataRanges.ranges, conditionRange => {
+                const partialColumnsResult = [];
                 const generator = generatorsMap[csvColumnsStructure[dataRange.column].dataType](
                     conditionRange.start,
                     csvColumnsStructure[dataRange.column].metaInfo,
@@ -89,21 +125,21 @@ class CSVDataGenerator {
                 );
 
                 let value = conditionRange.start;
-                let dataRangeCount = 0;
-                while (value.toString() !== conditionRange.end) {
+                for (let i = 0; i < conditionRange.rangeCount; i++) {
                     value = generator.next().value;
-                    dataRangeCount++;
-                    summaryDataRange++;
-                    rangedColumnResult[summaryDataRange] = {};
-                    rangedColumnResult[summaryDataRange][dataRange.column] = value;
+                    partialColumnsResult[i] = {};
+                    partialColumnsResult[i][dataRange.column] = value;
                 }
+                rangedColumnResult = [...rangedColumnResult, ...partialColumnsResult];
             });
+
             return this.generateDataWithRangedDataResults(
-                summaryDataRange+1,
+                classifiedDataRanges.summaryDataRange,
                 csvColumnsStructure,
                 dataRange.column,
                 rangedColumnResult,
-                dataRange.restFieldsRangeGapsStrategy
+                dataRange.restFieldsRangeGapsStrategy,
+                classifiedDataRanges
             );
         } else {
             throw new Error('Incorrect generator data type: '+
