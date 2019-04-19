@@ -26,19 +26,35 @@ class DataRangeClassifier {
 
     numericRangesHandler(dataRanges, rangeColumnConfiguration, dataRange, nextRange) {
         let nextRangeDistance = 0;
+        let rangeCount = 0;
         const start = dataRange[0];
         const end = dataRange[1];
 
-        // TODO: Split range handler for different strategies
+        if (_.includes(['add', 'remove'], rangeColumnConfiguration.strategy)) {
+            rangeCount = Math.abs(end - start) / rangeColumnConfiguration.metaInfo.operand + 1;
 
+            if (nextRange) {
+                const nextRangeStart = nextRange[0];
+                nextRangeDistance = Math.abs(end - nextRangeStart) / rangeColumnConfiguration.metaInfo.operand ;
+            } else {
+                nextRangeDistance = -1;
+            }
+        } else if (_.includes(['divide', 'multiply'], rangeColumnConfiguration.strategy)) {
+            const logBase = rangeColumnConfiguration.strategy === 'divide' ?
+                Math.abs(1 / rangeColumnConfiguration.metaInfo.operand) :
+                Math.abs(rangeColumnConfiguration.metaInfo.operand);
+            const logNumber = Math.abs(end / start * logBase);
+            rangeCount = Math.round(Math.log(logNumber) / Math.log(logBase));
 
-        const rangeCount = Math.abs(end - start) + 1;
-
-        if (nextRange) {
-            const nextRangeStart = nextRange[0];
-            nextRangeDistance = Math.abs(end - nextRangeStart);
+            if (nextRange) {
+                const nextRangeStart = nextRange[0];
+                const nextRangeLogNumber = Math.abs(nextRangeStart / end * logBase);
+                nextRangeDistance = Math.round(Math.log(nextRangeLogNumber) / Math.log(logBase)) - 2;
+            } else {
+                nextRangeDistance = -1;
+            }
         } else {
-            nextRangeDistance = -1;
+            throw new Error(`Unsupported range strategy provided: ${rangeColumnConfiguration.strategy}.`);
         }
 
         return { start, end, rangeCount, nextRangeDistance };

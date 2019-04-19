@@ -3,9 +3,6 @@
 ## Getting Started
 These instructions will get you a copy of the project up and running on your machine.
 
-### Prerequisites
-- [Node](https://nodejs.org/en/)
-
 ### Installing
 1. Install Node.
 2. Run command: `npm install` from the root level of the tool.
@@ -29,6 +26,8 @@ Example configuration provides information about all accepted data types and the
    1. Adding extra data columns to a new csv configuration will not add new column names in the output file.
    2. Extra data for columns will be added.
    3. Merging will overwrite a provided csv file. 
+3. To use ranged option in generator fill `dataRange` property in configuration file.
+   1. Property `restFieldsRangeGapsStrategy` can `propagate` gaps between ranges or `ignore` them.
 
 ### Output
 1. By default all output data is saved in an `output` folder.
