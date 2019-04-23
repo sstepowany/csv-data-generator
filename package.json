@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "Tool for generating csv files with provided data configuration.",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sstepowany/csv-data-generator"
+  },
   "scripts": {
-    "generate": "node generate.js"
+    "generate": "node scripts/generate.js"
   },
   "author": "sstepowany",
   "license": "ISC",
