@@ -20,6 +20,7 @@ Example configuration provides information about all accepted data types and the
 ### Example usage
 #### As a module
 Tool exports single function `generate` which takes an object parameter with properties:
+
 | Property                 | Description                                                                                                         |
 |--------------------------|---------------------------------------------------------------------------------------------------------------------|
 | csvConfigurationFilePath | Starts generation of csv data files.                                                                                |
