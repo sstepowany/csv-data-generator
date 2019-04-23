@@ -6,7 +6,7 @@ const CSVGenerator = require('./utils/csvGenerator');
  *      @objectProperty {String} csvConfigurationFilePath   CSV configuration json file path.
  *      @objectProperty {String} csvFilesNames              New CSV files names. Without "csv" extension. Separated by ";".
  *      @objectProperty {String} csvFilesPathToMergeWith    CSV files to merge new generated data with. Cannot be provided if csvFilesNames option was given. Separated by ";".
- *      @objectProperty {String} dataRowsCount              Data rows count for the CSV file.
+ *      @objectProperty {Int}    dataRowsCount              Data rows count for the CSV file.
  *      @objectProperty {String} outputPath                 Output path for generated csv data. Valid only with csvFilesNames command.
  *      @objectProperty {String} replaceInitialData         Replace initial data for defined column in configuration. Ex. NUMBER_COLUMN=1,STRING_COLUMN=abc.
  */
