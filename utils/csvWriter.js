@@ -22,12 +22,12 @@ class CsvWriter {
             });
         } else {
             const csvFilesNames = _.split(csvFilesNamesChain, this.filesNamesAndPathsSplitter);
-            if (!fs.existsSync(this.csvDefaultOutputDirectory)){
-                fs.mkdirSync(this.csvDefaultOutputDirectory);
+            const resultsOutputPath = _.isUndefined(outputPath) ? this.csvDefaultOutputDirectory : outputPath;
+            if (!fs.existsSync(resultsOutputPath)){
+                fs.mkdirSync(resultsOutputPath, { recursive: true });
             }
             await Promise.each(csvFilesNames, async csvFileName => {
-                const outputFilePath = _.isUndefined(outputPath) ?
-                    path.join(this.csvDefaultOutputDirectory, `${csvFileName}${this.csvFileExtension}`) : path.join(outputPath, `${csvFileName}${this.csvFileExtension}`);
+                const outputFilePath = path.join(resultsOutputPath, `${csvFileName}${this.csvFileExtension}`);
                 if (fs.existsSync(outputFilePath)) {
                     fs.unlinkSync(outputFilePath);
                 }
