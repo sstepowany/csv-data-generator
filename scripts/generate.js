@@ -14,7 +14,6 @@ program
     .option('-r, --replaceInitialData <replaceInitialData>', 'Replace initial data for defined column in configuration. Ex. NUMBER_COLUMN=1,STRING_COLUMN=abc.')
     .action(async options => {
         const csvGenerator = new CSVGenerator();
-        console.log(options);
         await csvGenerator.generateData(options);
     })
     .parse(process.argv);
