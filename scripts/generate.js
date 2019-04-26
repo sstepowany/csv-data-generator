@@ -4,7 +4,6 @@ const CSVGenerator = require('../utils/csvGenerator.js');
 
 program
     .description(name)
-    .usage('or npm run generate')
     .version(version)
     .option('-c, --csvConfigurationFilePath <csvConfigurationFilePath>', 'CSV configuration json file path.')
     .option('-n, --csvFilesNames <csvFilesNames>', 'New CSV files names. Without "csv" extension. Separated by ";".')
@@ -12,8 +11,9 @@ program
     .option('-d, --dataRowsCount <dataRowsCount>', 'Data rows count for the CSV file.')
     .option('-o, --outputPath <outputPath>', 'Output path for generated csv data. Valid only with csvFilesNames command.')
     .option('-r, --replaceInitialData <replaceInitialData>', 'Replace initial data for defined column in configuration. Ex. NUMBER_COLUMN=1,STRING_COLUMN=abc.')
+    .option('-l, --enableLog', 'Flag to turn on logging.')
     .action(async options => {
-        const csvGenerator = new CSVGenerator();
+        const csvGenerator = new CSVGenerator(options.enableLog);
         await csvGenerator.generateData(options);
     })
     .parse(process.argv);

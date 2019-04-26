@@ -9,6 +9,7 @@ const CSVGenerator = require('./utils/csvGenerator');
  *      @objectProperty {Int}    dataRowsCount              Data rows count for the CSV file.
  *      @objectProperty {String} outputPath                 Output path for generated csv data. Valid only with csvFilesNames command.
  *      @objectProperty {String} replaceInitialData         Replace initial data for defined column in configuration. Ex. NUMBER_COLUMN=1,STRING_COLUMN=abc.
+ *      @objectProperty {Bool}   enableLog                  Flag to turn on logging.
  */
 exports.generate = async (options) => {
     const csvGenerator = new CSVGenerator();
