@@ -6,7 +6,8 @@ const _ = require('lodash');
 
 
 class CsvWriter {
-    constructor() {
+    constructor(logger) {
+        this.logger = logger;
         this.csvDefaultOutputDirectory = 'output';
         this.csvFileExtension = '.csv';
         this.filesNamesAndPathsSplitter = ';';
@@ -18,7 +19,7 @@ class CsvWriter {
             const csvFilesPaths = _.split(csvFilesPathsToMergeWith, this.filesNamesAndPathsSplitter);
             await Promise.each(csvFilesPaths, async csvFilePath => {
                 await csv.toDisk(csvFilePath, { append: true });
-                console.log(`Written data file: ${csvFilePath}.`);
+                this.logger.info(`Written data file: ${csvFilePath}.`);
             });
         } else {
             const csvFilesNames = _.split(csvFilesNamesChain, this.filesNamesAndPathsSplitter);
@@ -32,7 +33,7 @@ class CsvWriter {
                     fs.unlinkSync(outputFilePath);
                 }
                 await csv.toDisk(outputFilePath);
-                console.log(`Written data file: ${outputFilePath}.`);
+                this.logger.info(`Written data file: ${outputFilePath}.`);
             });
         }
     }

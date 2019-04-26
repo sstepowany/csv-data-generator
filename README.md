@@ -14,7 +14,7 @@ These instructions will get you a copy of the project up and running on your mac
 
 ### CSV data configuration
 Configuration must be written in a `*.json` file.
-Example configuration json file is provided in the `configuration/exampleConfiguration.json` file.
+Example configuration json file is provided in the `dataConfiguration/exampleConfiguration.json` file.
 Example configuration provides information about all accepted data types and their strategies.
 
 ### Example usage
@@ -33,8 +33,8 @@ Tool exports single function `generate` which takes an object parameter with pro
 #### As a script
 1. Possible generator options
     1. To receive a list with possible options run a command: `npm run generate -- -h`.
-2. To generate 10 data rows and save 2 new csv files with names `test1.csv` and `test2.csv` run a command: `npm run generate -- -c configuration/examplecConfiguration.json -n test1;test2 -d 10`.
-3. To append an already generated csv file use a command: `npm run generate -- -c configuration/exampleConfiguration.json -m output/test.csv -d 10`.
+2. To generate 10 data rows and save 2 new csv files with names `test1.csv` and `test2.csv` run a command: `npm run generate -- -c dataConfiguration/examplecConfiguration.json -n test1;test2 -d 10`.
+3. To append an already generated csv file use a command: `npm run generate -- -c dataConfiguration/exampleConfiguration.json -m output/test.csv -d 10`.
    1. Adding extra data columns to a new csv configuration will not add new column names in the output file.
    2. Extra data for columns will be added.
    3. Merging will overwrite a provided csv file. 

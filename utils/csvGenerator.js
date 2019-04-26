@@ -1,12 +1,14 @@
 const fs = require('fs');
 const _ = require('lodash');
+const Logger = require('./logger.js');
 const CSVWriter = require('./csvWriter.js');
 const CSVDataGenerator = require('./csvDataGenerator.js');
 const OptionsValidator = require('./optionsValidator.js');
 
 class CSVGenerator {
-    constructor() {
-        this.csvWriter = new CSVWriter();
+    constructor(enableLog) {
+        this.logger = new Logger(enableLog);
+        this.csvWriter = new CSVWriter(this.logger);
         this.csvDataGenerator = new CSVDataGenerator();
         this.optionsValidator = new OptionsValidator();
         this.csvConfigurationFileEncoding = 'utf8';
@@ -19,10 +21,10 @@ class CSVGenerator {
             if (!_.isNumber(dataRowsCount) || options.dataRowsCount < this.miniumDataRowsCount) {
                 throw new Error('Incorrect data rows count provided.');
             }
-            console.log('Generating data based on data count.');
+            this.logger.info('Generating data based on data count.');
             return this.csvDataGenerator.generateDataWithRowsCount(options.dataRowsCount, csvConfiguration.columnsStructure);
         } else {
-            console.log('Generating data based on data range.');
+            this.logger.info('Generating data based on data range.');
             return this.csvDataGenerator.generateDataForRangedData(csvConfiguration.dataRange, csvConfiguration.columnsStructure);
         }
     }
@@ -45,12 +47,10 @@ class CSVGenerator {
 
                 const csvData = await this.prepareCsvData(options, csvConfiguration);
                 await this.csvWriter.writeCSVFiles(csvData, options.csvFilesNames, options.outputPath, options.csvFilesPathToMergeWith);
-                console.log('Generation completed.')
+                this.logger.info('Generation completed.')
             }
         } catch (exception) {
-            console.error(exception);
-            console.error(exception.message);
-            console.info('Generation not finalized.')
+            throw new Error(`Generation not finalized: ${exception.message}`);
         }
     }
 }
