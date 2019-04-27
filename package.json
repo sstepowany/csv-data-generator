@@ -1,6 +1,6 @@
 {
   "name": "csv-data-generator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Tool for generating csv files with provided data configuration.",
   "main": "index.js",
   "repository": {
