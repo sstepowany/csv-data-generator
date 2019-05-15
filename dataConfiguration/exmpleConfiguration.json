@@ -63,13 +63,14 @@
       "initialData": "2018-11-30 00:00:00",
       "strategy": "constant"
     },
-    "DATE_ADD": {
+    "DATE_ADD_OTHER_OUT_FORMAT": {
       "dataType": "date",
       "initialData": "2018-11-30 00:00:00",
       "strategy": "add",
       "metaInfo": {
         "dateFormat": "YYYY-MM-DD HH:mm:ss",
         "interval": 1440,
+        "outputDateFormat": "MM-DD",
         "intervalUnit": "minutes"
       }
     },
