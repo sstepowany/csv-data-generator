@@ -5,7 +5,7 @@ const path = require('path');
 class Logger {
     constructor(enableLog) {
         this.enableLog = enableLog;
-        configure(path.join('config', 'log4js.json'));
+        configure(path.join(__dirname, '..', 'config', 'log4js.json'));
         this.logger = getLogger(name);
     }
 
