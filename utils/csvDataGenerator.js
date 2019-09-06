@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const DateGenerator = require('./dataTypeGenerators/dateGenerator.js');
 const NumberGenerator = require('./dataTypeGenerators/numberGenerator.js');
-const TextGenerator = require('./dataTypeGenerators/TextGenerator.js');
+const TextGenerator = require('./dataTypeGenerators/textGenerator.js');
 const DataRangeClassifier = require('./dataRangeClassifier');
 
 class CSVDataGenerator {
